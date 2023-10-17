@@ -1,7 +1,6 @@
 package logger
 
 import (
-	"fmt"
 	"go.uber.org/zap"
 	"log"
 	"urban-map/internal/utils/env"
@@ -10,7 +9,6 @@ import (
 func Init() {
 	var logger *zap.Logger
 	var err error
-	fmt.Println(env.RunningMode)
 	switch env.RunningMode {
 	case "dev":
 		logger, err = zap.NewDevelopment()

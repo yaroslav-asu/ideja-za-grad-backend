@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 	"time"
 	"urban-map/internal/utils/env"
+	"urban-map/models/gorm/marker"
 )
 
 var reconnectTime = 5 * time.Second
@@ -14,7 +15,10 @@ var reconnectTime = 5 * time.Second
 func Init() {
 	db := Connect()
 	defer Close(db)
-	err := db.AutoMigrate()
+	err := db.AutoMigrate(
+		&marker.Marker{},
+		&marker.Type{},
+	)
 	if err != nil {
 		zap.L().Error("failed to auto migrate database")
 		zap.L().Info("Continuing without auto migration")
