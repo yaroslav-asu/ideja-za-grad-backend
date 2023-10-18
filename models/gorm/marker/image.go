@@ -3,8 +3,8 @@ package marker
 import "gorm.io/gorm"
 
 type Image struct {
-	ID       uint `gorm:"primaryKey"`
-	FileName string
+	ID    uint   `gorm:"primaryKey" json:"id"`
+	Title string `json:"title"`
 }
 
 func (i *Image) Save(db *gorm.DB) {

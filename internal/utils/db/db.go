@@ -11,6 +11,7 @@ import (
 )
 
 var reconnectTime = 5 * time.Second
+var DB *gorm.DB
 
 func Init() {
 	db := Connect()
@@ -35,6 +36,7 @@ func Connect() *gorm.DB {
 		reconnectTime *= 2
 		return Connect()
 	}
+	DB = db
 	return db
 }
 
@@ -49,4 +51,8 @@ func Close(db *gorm.DB) {
 	if err != nil {
 		zap.L().Info("DB connection wasn't close: " + err.Error())
 	}
+}
+
+func GetDB() *gorm.DB {
+	return DB
 }

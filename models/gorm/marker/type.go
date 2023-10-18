@@ -3,8 +3,8 @@ package marker
 import "gorm.io/gorm"
 
 type Type struct {
-	ID    uint   `gorm:"primaryKey"`
-	Title string `gorm:"size:64"`
+	ID    uint   `gorm:"primaryKey" json:"id"`
+	Title string `gorm:"size:64" json:"title"`
 }
 
 func (t *Type) Save(db *gorm.DB) {
