@@ -4,6 +4,8 @@ import "gorm.io/gorm"
 
 type Marker struct {
 	ID          uint   `gorm:"primaryKey" json:"id"`
+	CoordsID    uint   `json:"coords_id"`
+	Coords      Coords `json:"coords"`
 	TypeID      uint   `json:"type_id"`
 	Type        Type   `json:"type"`
 	ImageID     uint   `json:"image_id"`
