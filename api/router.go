@@ -13,9 +13,10 @@ func InitRouter() *gin.Engine {
 		AllowMethods: []string{"GET", "POST"},
 		AllowHeaders: []string{"*"},
 	}))
-	r.GET("/markers/:id", v1.GetMarker)
-	r.GET("/markers", v1.GetMarkers)
-	r.POST("/markers", v1.CreateMarker)
-	r.GET("/types", v1.GetTypes)
+	groupV1 := r.Group("/api/v1")
+	groupV1.GET("/markers/:id", v1.GetMarker)
+	groupV1.GET("/markers", v1.GetMarkers)
+	groupV1.POST("/markers", v1.CreateMarker)
+	groupV1.GET("/types", v1.GetTypes)
 	return r
 }
