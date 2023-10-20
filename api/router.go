@@ -10,8 +10,12 @@ func InitRouter() *gin.Engine {
 	r := gin.Default()
 	r.Use(cors.New(cors.Config{
 		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST"},
+		AllowHeaders: []string{"*"},
 	}))
 	r.GET("/markers/:id", v1.GetMarker)
 	r.GET("/markers", v1.GetMarkers)
+	r.POST("/markers", v1.CreateMarker)
+	r.GET("/types", v1.GetTypes)
 	return r
 }

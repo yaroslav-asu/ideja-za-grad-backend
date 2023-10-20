@@ -8,10 +8,10 @@ type Coords struct {
 	Lng uint `json:"lng"`
 }
 
-func (c *Coords) Save(db *gorm.DB) {
-	db.FirstOrCreate(c)
+func (c *Coords) Save(db *gorm.DB) error {
+	return db.Model(Coords{}).Where("lat = ? and lng = ?", c.Lat, c.Lng).FirstOrCreate(&c).Error
 }
 
-func (c *Coords) Delete(db *gorm.DB) {
-	db.Delete(c)
+func (c *Coords) Delete(db *gorm.DB) error {
+	return db.Delete(c).Error
 }
