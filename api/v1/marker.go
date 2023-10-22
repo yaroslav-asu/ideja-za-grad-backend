@@ -7,6 +7,7 @@ import (
 	"urban-map/internal/utils/db"
 	"urban-map/models/gorm/marker"
 	"urban-map/pkg/app"
+	"urban-map/telegram_bot"
 )
 
 func GetMarker(c *gin.Context) {
@@ -21,7 +22,7 @@ func GetMarker(c *gin.Context) {
 
 func GetMarkers(c *gin.Context) {
 	appG := app.Gin{C: c}
-	appG.Response(200, marker.GetAll(db.GetDB()))
+	appG.Response(200, marker.GetAllApproved(db.GetDB()))
 }
 
 func CreateMarker(c *gin.Context) {
@@ -48,4 +49,5 @@ func CreateMarker(c *gin.Context) {
 	}
 	appG.Response(200, m)
 	zap.L().Info("marker created")
+	telegram_bot.SendNotification(&m)
 }

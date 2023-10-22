@@ -4,6 +4,7 @@ import (
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 	"os"
+	"strconv"
 )
 
 var (
@@ -12,7 +13,9 @@ var (
 	DbName     string
 )
 var (
-	RunningMode string
+	RunningMode      string
+	TelegramBotToken string
+	AdminChatId      int64
 )
 
 func initLoggerEnv() {
@@ -21,6 +24,11 @@ func initLoggerEnv() {
 		zap.L().Fatal("Failed to load .env.db file")
 	}
 	RunningMode = os.Getenv("RUNNING_MODE")
+	TelegramBotToken = os.Getenv("TELEGRAM_BOT_TOKEN")
+	AdminChatId, err = strconv.ParseInt(os.Getenv("ADMIN_CHAT_ID"), 10, 64)
+	if err != nil {
+		zap.L().Fatal("Failed to parse admin chat id")
+	}
 }
 
 func initDbEnv() {

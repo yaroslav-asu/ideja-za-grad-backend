@@ -1,19 +1,20 @@
 package main
 
 import (
-	"log"
+	"sync"
 	"urban-map/api"
 	"urban-map/internal"
 	"urban-map/internal/utils/db"
+	"urban-map/telegram_bot"
 )
 
 func main() {
 	internal.Init()
 	d := db.Connect()
 	defer db.Close(d)
-	router := api.InitRouter()
-	err := router.Run()
-	if err != nil {
-		log.Fatal(err.Error())
-	}
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go api.Run(&wg)
+	go telegram_bot.Run(&wg)
+	wg.Wait()
 }
