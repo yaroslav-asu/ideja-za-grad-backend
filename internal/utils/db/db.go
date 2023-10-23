@@ -17,8 +17,9 @@ func Init() {
 	db := Connect()
 	defer Close(db)
 	err := db.AutoMigrate(
+		//&marker.Image{},
 		&marker.Marker{},
-		&marker.Type{},
+		//&marker.Type{},
 	)
 	if err != nil {
 		zap.L().Error("failed to auto migrate database")

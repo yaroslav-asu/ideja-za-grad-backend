@@ -16,6 +16,7 @@ func InitRouter() *gin.Engine {
 		AllowHeaders: []string{"*"},
 	}))
 	groupV1 := r.Group("/api/v1")
+	groupV1.Static("/static", "./static/images")
 	groupV1.GET("/markers", v1.GetMarkers)
 	groupV1.POST("/markers", v1.CreateMarker)
 	groupV1.GET("/types", v1.GetTypes)

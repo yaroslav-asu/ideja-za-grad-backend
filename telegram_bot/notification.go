@@ -2,6 +2,7 @@ package telegram_bot
 
 import (
 	"encoding/json"
+	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"go.uber.org/zap"
 	"urban-map/internal/utils/env"
@@ -42,17 +43,28 @@ func SendNotification(m *marker.Marker) {
 	if err != nil {
 		zap.L().Warn("failed to marshal marker: " + err.Error())
 	}
+
+	var images = make([]interface{}, len(m.Images))
+	for i, image := range m.Images {
+		photo := tgbotapi.NewInputMediaPhoto(tgbotapi.FilePath(fmt.Sprintf("static/images/%s", image.Title)))
+		images[i] = photo
+	}
+	_, err = tgBot.SendMediaGroup(tgbotapi.NewMediaGroup(env.AdminChatId, []interface{}(images)))
+	if err != nil {
+		zap.L().Warn("failed to send message to admin: " + err.Error())
+	}
+
 	message := tgbotapi.NewMessage(env.AdminChatId, string(j))
+	message.Text = string(j)
 	keyboard := tgbotapi.NewInlineKeyboardMarkup(
 		tgbotapi.NewInlineKeyboardRow(
 			tgbotapi.NewInlineKeyboardButtonData("Approve", "approve"),
 			tgbotapi.NewInlineKeyboardButtonData("Decline", "decline"),
 		),
 	)
-	message.ReplyMarkup = &keyboard
+	message.ReplyMarkup = keyboard
 	_, err = tgBot.Send(message)
 	if err != nil {
 		zap.L().Warn("failed to send message to admin: " + err.Error())
 	}
-
 }

@@ -1,9 +1,12 @@
 package v1
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 	"go.uber.org/zap"
 	"strconv"
+	"strings"
 	"urban-map/internal/utils/db"
 	"urban-map/models/gorm/marker"
 	"urban-map/pkg/app"
@@ -29,17 +32,41 @@ func CreateMarker(c *gin.Context) {
 	appG := app.Gin{C: c}
 	var m marker.Marker
 
-	err := c.BindJSON(&m)
+	form, err := c.MultipartForm()
 	if err != nil {
 		zap.L().Error(err.Error())
 		appG.Response(400, err.Error())
 		return
 	}
+	typeId, err := strconv.ParseUint(form.Value["type"][0], 10, 32)
+	if err != nil {
+		zap.L().Error(err.Error())
+		appG.Response(400, err.Error())
+		return
+	}
+	m.Type.ID = uint(typeId)
 	err = m.Type.IsExist(db.GetDB())
 	if err != nil {
 		zap.L().Error("marker type not found: " + err.Error())
 		appG.Response(422, "type doesn't exist")
 		return
+	}
+	m.Description = form.Value["description"][0]
+	m.Coords.Lat, _ = strconv.ParseFloat(form.Value["lat"][0], 64)
+	m.Coords.Lng, _ = strconv.ParseFloat(form.Value["lng"][0], 64)
+	files := form.File["images"]
+	for _, file := range files {
+		uniqueId := uuid.New()
+		fileExt := strings.Split(file.Filename, ".")[1]
+		imageTitle := fmt.Sprintf("%s.%s", uniqueId, fileExt)
+		path := fmt.Sprintf("static/images/%s", imageTitle)
+		err = c.SaveUploadedFile(file, path)
+		if err != nil {
+			zap.L().Error(err.Error())
+		}
+		image := marker.Image{Title: imageTitle}
+		image.Save(db.GetDB())
+		m.Images = append(m.Images, image)
 	}
 	err = m.Save(db.GetDB())
 	if err != nil {
