@@ -68,14 +68,29 @@ func (m *Marker) Approve(db *gorm.DB) error {
 	return db.Model(&Marker{}).Where("type_id = ? AND coords_id = ? AND description = ?", t.ID, c.ID, m.Description).Update("approved", true).Error
 }
 
-func Get(db *gorm.DB, id uint) Marker {
+func Get(db *gorm.DB, id uint) (Marker, error) {
 	var marker Marker
-	db.Preload("Type").Preload("Coords").First(&marker, id)
-	return marker
+	err := db.Preload("Type").Preload("Coords").First(&marker, id).Error
+	if err != nil {
+		return Marker{}, err
+	}
+	return marker, nil
 }
 
-func GetAllApproved(db *gorm.DB) []Marker {
+func GetAllApproved(db *gorm.DB) ([]Marker, error) {
 	var markers []Marker
-	db.Preload("Images").Preload("Type").Preload("Coords").Where("approved = true").Find(&markers)
-	return markers
+	err := db.Preload("Type").Preload("Coords").Where("approved = true").Find(&markers).Error
+	if err != nil {
+		return nil, err
+	}
+	return markers, nil
+}
+
+func GetImages(db *gorm.DB, id uint) ([]Image, error) {
+	var images []Image
+	err := db.Model(&Marker{ID: id}).Association("Images").Find(&images)
+	if err != nil {
+		return nil, err
+	}
+	return images, nil
 }

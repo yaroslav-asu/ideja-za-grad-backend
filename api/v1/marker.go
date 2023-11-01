@@ -20,12 +20,36 @@ func GetMarker(c *gin.Context) {
 		appG.Response(400, err.Error())
 		return
 	}
-	appG.Response(200, marker.Get(db.GetDB(), uint(id)))
+	m, err := marker.Get(db.GetDB(), uint(id))
+	if err != nil {
+		appG.Response(500, err.Error())
+		return
+	}
+	appG.Response(200, m)
 }
 
 func GetMarkers(c *gin.Context) {
 	appG := app.Gin{C: c}
-	appG.Response(200, marker.GetAllApproved(db.GetDB()))
+	markers, err := marker.GetAllApproved(db.GetDB())
+	if err != nil {
+		appG.Response(500, err.Error())
+		return
+	}
+	appG.Response(200, markers)
+}
+func GetImages(c *gin.Context) {
+	appG := app.Gin{C: c}
+	id, err := strconv.ParseUint(c.Param("id"), 10, 32)
+	if err != nil {
+		appG.Response(400, err.Error())
+		return
+	}
+	images, err := marker.GetImages(db.GetDB(), uint(id))
+	if err != nil {
+		appG.Response(500, err.Error())
+		return
+	}
+	appG.Response(200, images)
 }
 
 func CreateMarker(c *gin.Context) {
