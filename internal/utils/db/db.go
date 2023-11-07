@@ -21,6 +21,10 @@ func Init() {
 		&marker.Marker{},
 		//&marker.Type{},
 	)
+	typesTitles := []string{"accessibility", "architecture", "bike_infrastructure", "pets_infrastructure", "playgrounds", "transport", "walkability", "natural"}
+	for i, t := range typesTitles {
+		db.Model(&marker.Type{}).FirstOrCreate(&marker.Type{ID: uint(i), Title: t})
+	}
 	if err != nil {
 		zap.L().Error("failed to auto migrate database")
 		zap.L().Info("Continuing without auto migration")
