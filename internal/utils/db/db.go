@@ -5,6 +5,7 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"net/url"
 	"time"
 	"urban-map/internal/utils/env"
 	"urban-map/models/gorm/marker"
@@ -32,7 +33,7 @@ func Init() {
 }
 
 func Connect() *gorm.DB {
-	dbURL := fmt.Sprintf("postgres://%s:%s@localhost:5432/%s", env.DbUser, env.DbPassword, env.DbName)
+	dbURL := fmt.Sprintf("postgres://%s:%s@%s:5432/%s", env.DbUser, url.QueryEscape(env.DbPassword), env.DbHost, env.DbName)
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	if err != nil {
 		zap.L().Error("Failed to connect db")

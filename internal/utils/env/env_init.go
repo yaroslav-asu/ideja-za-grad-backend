@@ -11,6 +11,7 @@ var (
 	DbUser     string
 	DbPassword string
 	DbName     string
+	DbHost     string
 )
 var (
 	RunningMode      string
@@ -39,6 +40,7 @@ func initDbEnv() {
 	DbUser = os.Getenv("POSTGRES_USER")
 	DbPassword = os.Getenv("POSTGRES_PASSWORD")
 	DbName = os.Getenv("POSTGRES_DB")
+	DbHost = os.Getenv("POSTGRES_HOST")
 }
 
 func Init() {
