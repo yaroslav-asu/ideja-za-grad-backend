@@ -4,9 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/yaroslav-asu/urban-map/internal/utils/env"
+	"github.com/yaroslav-asu/urban-map/models/gorm/marker"
 	"go.uber.org/zap"
-	"urban-map/internal/utils/env"
-	"urban-map/models/gorm/marker"
 )
 
 type MarkerNotification struct {

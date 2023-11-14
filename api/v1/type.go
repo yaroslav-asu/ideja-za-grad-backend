@@ -2,9 +2,9 @@ package v1
 
 import (
 	"github.com/gin-gonic/gin"
-	"urban-map/internal/utils/db"
-	"urban-map/models/gorm/marker"
-	"urban-map/pkg/app"
+	"github.com/yaroslav-asu/urban-map/internal/utils/db"
+	"github.com/yaroslav-asu/urban-map/models/gorm/marker"
+	"github.com/yaroslav-asu/urban-map/pkg/app"
 )
 
 func GetTypes(c *gin.Context) {

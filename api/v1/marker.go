@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
+	"github.com/yaroslav-asu/urban-map/internal/utils/db"
+	"github.com/yaroslav-asu/urban-map/models/gorm/marker"
+	"github.com/yaroslav-asu/urban-map/pkg/app"
+	"github.com/yaroslav-asu/urban-map/telegram_bot"
 	"go.uber.org/zap"
 	"strconv"
 	"strings"
-	"urban-map/internal/utils/db"
-	"urban-map/models/gorm/marker"
-	"urban-map/pkg/app"
-	"urban-map/telegram_bot"
 )
 
 func GetMarker(c *gin.Context) {

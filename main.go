@@ -1,11 +1,11 @@
 package main
 
 import (
+	"github.com/yaroslav-asu/urban-map/api"
+	"github.com/yaroslav-asu/urban-map/internal"
+	"github.com/yaroslav-asu/urban-map/internal/utils/db"
+	"github.com/yaroslav-asu/urban-map/telegram_bot"
 	"sync"
-	"urban-map/api"
-	"urban-map/internal"
-	"urban-map/internal/utils/db"
-	"urban-map/telegram_bot"
 )
 
 func main() {

@@ -1,9 +1,9 @@
 package logger
 
 import (
+	"github.com/yaroslav-asu/urban-map/internal/utils/env"
 	"go.uber.org/zap"
 	"log"
-	"urban-map/internal/utils/env"
 )
 
 func Init() {

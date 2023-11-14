@@ -3,9 +3,9 @@ package api
 import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	v1 "github.com/yaroslav-asu/urban-map/api/v1"
 	"log"
 	"sync"
-	v1 "urban-map/api/v1"
 )
 
 func InitRouter() *gin.Engine {

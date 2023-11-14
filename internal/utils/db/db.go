@@ -2,13 +2,13 @@ package db
 
 import (
 	"fmt"
+	"github.com/yaroslav-asu/urban-map/internal/utils/env"
+	"github.com/yaroslav-asu/urban-map/models/gorm/marker"
 	"go.uber.org/zap"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"net/url"
 	"time"
-	"urban-map/internal/utils/env"
-	"urban-map/models/gorm/marker"
 )
 
 var reconnectTime = 5 * time.Second

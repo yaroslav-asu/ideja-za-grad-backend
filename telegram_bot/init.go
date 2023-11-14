@@ -3,10 +3,10 @@ package telegram_bot
 import (
 	"encoding/json"
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
+	"github.com/yaroslav-asu/urban-map/internal/utils/db"
+	"github.com/yaroslav-asu/urban-map/internal/utils/env"
 	"go.uber.org/zap"
 	"sync"
-	"urban-map/internal/utils/db"
-	"urban-map/internal/utils/env"
 )
 
 var tgBot *tgbotapi.BotAPI
