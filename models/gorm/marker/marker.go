@@ -79,7 +79,7 @@ func Get(db *gorm.DB, id uint) (Marker, error) {
 
 func GetAllApproved(db *gorm.DB) ([]Marker, error) {
 	var markers []Marker
-	err := db.Preload("Type").Preload("Coords").Where("approved = true").Find(&markers).Error
+	err := db.Preload("Type").Preload("Coords").Preload("Images").Where("approved = true").Find(&markers).Error
 	if err != nil {
 		return nil, err
 	}
